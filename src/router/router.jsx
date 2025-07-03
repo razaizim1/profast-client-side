@@ -8,6 +8,8 @@ import AuthLayout from '../layouts/AuthLayout';
 import Login from '../pages/Auth/Login/Login';
 import Registration from '../pages/Auth/Registration/Registration';
 import Coverage from '../pages/Coverage/Coverage';
+import SendParcel from '../pages/SendParcel/SendParcel';
+import PrivateRoute from '../routes/PrivateRoute';
 
 const router = createBrowserRouter([
     {
@@ -21,6 +23,18 @@ const router = createBrowserRouter([
             {
                 path: 'coverage',
                 Component: Coverage
+            },
+            {
+                path: "sendparcel",
+                element: (
+                        <SendParcel />
+                ),
+                loader : () => fetch('./serviceCenter.json'),
+                hydrateFallbackElement: (
+                    <div className="flex justify-center items-center min-h-[200px]">
+                        <span className="loading loading-bars loading-xl"></span>
+                    </div>
+                ),
             },
         ]
     },
