@@ -34,7 +34,7 @@ const Login = () => {
 
                         <button className="btn btn-primary text-black mt-4">Login</button>
                     </fieldset>
-                    <p><small>New to this website? <Link className="btn btn-link" to="/register">Register</Link></small></p>
+                    <p><small>New to this website? <Link className="btn btn-link" to="/registration">Registration</Link></small></p>
                 </form>
             </div>
         </div>
