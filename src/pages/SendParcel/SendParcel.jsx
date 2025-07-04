@@ -1,12 +1,14 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useLoaderData } from "react-router";
 import Swal from 'sweetalert2';
 import useAuth from "../../hook/useAuth";
+import useAxiosSecure from "../../hook/useAxiosSecure";
 
 const SendParcel = () => {
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+
     const {
         register,
         handleSubmit,
@@ -28,8 +30,6 @@ const SendParcel = () => {
     const type = watch("type");
     const senderRegion = watch("sender_region");
     const receiverRegion = watch("receiver_region");
-
-    const [cost, setCost] = useState(null);
     function generateTrackingId() {
         // Example: "PKL-20250703-5F3A9C"
         const prefix = "PKL"; // Parcel prefix, you can customize
@@ -75,8 +75,6 @@ const SendParcel = () => {
             }
         }
 
-        setCost(cost);
-
         const parcelData = {
             ...data,
             cost,
@@ -87,10 +85,18 @@ const SendParcel = () => {
             tracking_id: trackingId,
         };
 
-        // Show SweetAlert with breakdown
-        Swal.fire({
-            title: 'Pricing Breakdown',
-            html: `
+
+
+        console.log("Parcel data:", parcelData);
+
+        axiosSecure.post('parcels', parcelData)
+            .then(res => {
+                console.log(res.data);
+                if (res.data.insertedId) {
+                    // Show SweetAlert with breakdown
+                    Swal.fire({
+                        title: 'Pricing Breakdown',
+                        html: `
       <p><b>Parcel Type:</b> ${data.type}</p>
       <p><b>Weight:</b> ${weight} kg</p>
       <p><b>Sender District:</b> ${senderDistrict}</p>
@@ -103,11 +109,11 @@ const SendParcel = () => {
       <hr/>
       <p style="font-weight: bold;">Total Cost: ৳${cost}</p>
     `,
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-
-        console.log("Parcel data:", parcelData);
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
     };
 
     return (

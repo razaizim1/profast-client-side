@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true);
     // Google Provider Instance
     const googleProvider = new GoogleAuthProvider;
 
@@ -26,9 +26,9 @@ const AuthProvider = ({ children }) => {
 
     // create an observer for user login state
     useEffect(() => {
+        setLoading(true);
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log('has user', currentUser);
-
             setUser(currentUser);
             setLoading(false);
         });
@@ -54,9 +54,9 @@ const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext value={authInfo}>
+        <AuthContext.Provider value={authInfo}>
             {children}
-        </AuthContext>
+        </AuthContext.Provider>
     );
 };
 

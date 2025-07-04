@@ -1,21 +1,23 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hook/useAuth';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Registration = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser } = useAuth();
+    const navigate = useNavigate();
+    const [error, setError] = React.useState('');
 
     const onSubmit = data => {
-        console.log(data);
+        setError('');
         createUser(data.email, data.password)
-            .then(result => {
-                console.log(result.user)
+            .then(() => {
+                navigate('/');
             })
-            .catch(error => {
-                console.error(error);
+            .catch(() => {
+                setError('Registration failed. Please try again.');
             })
     }
     return (
@@ -43,6 +45,7 @@ const Registration = () => {
                         }
 
                         <div><a className="link link-hover">Forgot password?</a></div>
+                        {error && <p className='text-red-500'>{error}</p>}
                         <button className="btn btn-primary text-black mt-4">Register</button>
                     </fieldset>
                     <p><small>Already have an account? <Link className="btn btn-link" to="/login">Login</Link></small></p>
