@@ -12,6 +12,7 @@ import SendParcel from '../pages/SendParcel/SendParcel';
 import PrivateRoute from '../routes/PrivateRoute';
 import DashboardLayout from '../layouts/DashboardLayout';
 import MyParcels from '../pages/Dashboard/MyParcels/MyParcels';
+import Payement from '../pages/Dashboard/Payment/Payement';
 
 const router = createBrowserRouter([
     {
@@ -29,9 +30,9 @@ const router = createBrowserRouter([
             {
                 path: "sendparcel",
                 element: (
-                        <SendParcel />
+                    <SendParcel />
                 ),
-                loader : () => fetch('./serviceCenter.json'),
+                loader: () => fetch('./serviceCenter.json'),
                 hydrateFallbackElement: (
                     <div className="flex justify-center items-center min-h-[200px]">
                         <span className="loading loading-bars loading-xl"></span>
@@ -67,9 +68,13 @@ const router = createBrowserRouter([
                 element: <div className="p-4"><h1 className="text-2xl font-bold">Dashboard</h1><p>Welcome to your dashboard!</p></div>
             },
             {
-                path: '/dashboard/myParcels',
-                element: <MyParcels></MyParcels>
-            }
+                path: 'myParcels',
+                Component: MyParcels
+            },
+            {
+                path: 'payment/:parcelId',
+                Component: Payement
+            },
         ]
     }
 ]);

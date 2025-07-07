@@ -3,11 +3,13 @@ import React from 'react';
 import useAuth from '../../../hook/useAuth';
 import useAxiosSecure from '../../../hook/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const MyParcels = () => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const { data: parcels = [] } = useQuery({
         queryKey: ['my-parcels', user.email],
         queryFn: async () => {
@@ -19,6 +21,25 @@ const MyParcels = () => {
         // Example: show modal, navigate to details page, or console.log
         console.log('Viewing parcel:', parcel);
     };
+
+    const handlePay = async (id) => {
+        try {
+            // Example: call backend API to update payment status
+            // const res = await axiosSecure.patch(`/parcels/pay/${id}`);
+            navigate(`/dashboard/payment/${id}`);
+
+            // if (res.data.modifiedCount > 0) {
+            //     Swal.fire('Success!', 'Payment completed.', 'success');
+            //     queryClient.invalidateQueries(['my-parcels', user.email]);
+            // } else {
+            //     Swal.fire('Info', 'Payment was not updated.', 'info');
+            // }
+        } catch (error) {
+            Swal.fire('Error!', 'Payment failed.', 'error');
+            console.error(error);
+        }
+    };
+
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
@@ -45,7 +66,6 @@ const MyParcels = () => {
         }
     };
 
-    console.log(parcels);
     return (
         <div className="overflow-x-auto shadow-md rounded-xl">
             <h2>this is my parcel: {parcels.length}</h2>
@@ -77,6 +97,14 @@ const MyParcels = () => {
                                     className="btn btn-sm btn-outline btn-info"
                                 >
                                     View
+                                </button>
+                                <button
+                                    onClick={() => handlePay(parcel._id)}
+                                    className="btn btn-sm btn-outline btn-success"
+                                    disabled={parcel.payment_status === 'paid'}
+                                    title={parcel.payment_status === 'paid' ? 'Already Paid' : 'Pay now'}
+                                >
+                                    Pay
                                 </button>
                                 <button
                                     onClick={() => handleDelete(parcel._id)}
