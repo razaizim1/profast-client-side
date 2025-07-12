@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router';
-import { FiHome, FiPackage, FiCreditCard, FiMenu } from 'react-icons/fi';
+import { FiHome, FiPackage, FiCreditCard, FiMenu, FiUserCheck } from 'react-icons/fi';
 import ProFastLogo from '../pages/shared/ProFastLogo/ProFastLogo';
+import { FaUserClock } from 'react-icons/fa';
 
 const DashboardLayout = () => {
     return (
@@ -79,6 +80,40 @@ const DashboardLayout = () => {
                         >
                             <FiCreditCard />
                             Payment History
+                        </NavLink>
+                    </li>
+
+                                        {/* Pending Riders */}
+                    <li>
+                        <NavLink
+                            to="/dashboard/pendingriders"
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 rounded-lg px-3 py-2 font-medium transition-colors ${
+                                    isActive
+                                        ? 'bg-primary text-white'
+                                        : 'hover:bg-base-300 text-gray-800'
+                                }`
+                            }
+                        >
+                            <FaUserClock />
+                            Pending Riders
+                        </NavLink>
+                    </li>
+
+                    {/* Active Riders */}
+                    <li>
+                        <NavLink
+                            to="/dashboard/activeriders"
+                            className={({ isActive }) =>
+                                `flex items-center gap-3 rounded-lg px-3 py-2 font-medium transition-colors ${
+                                    isActive
+                                        ? 'bg-primary text-white'
+                                        : 'hover:bg-base-300 text-gray-800'
+                                }`
+                            }
+                        >
+                            <FiUserCheck />
+                            Active Riders
                         </NavLink>
                     </li>
                 </ul>

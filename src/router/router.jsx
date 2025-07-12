@@ -14,6 +14,9 @@ import DashboardLayout from '../layouts/DashboardLayout';
 import MyParcels from '../pages/Dashboard/MyParcels/MyParcels';
 import Payement from '../pages/Dashboard/Payment/Payement';
 import PaymentHistory from '../pages/Dashboard/PaymentHistory/PaymentHistory';
+import BeARider from '../pages/BeARider/BeARider';
+import PendingRider from '../pages/Dashboard/PendingRidex/PendingRider';
+import ActiveRiders from '../pages/Dashboard/ActiveRiders/ActiveRiders';
 
 const router = createBrowserRouter([
     {
@@ -29,6 +32,11 @@ const router = createBrowserRouter([
                 Component: Coverage
             },
             {
+                path: 'beARider',
+                element: <PrivateRoute><BeARider></BeARider></PrivateRoute>,
+                loader: () => fetch('./serviceCenter.json')
+            },
+            {
                 path: "sendparcel",
                 element: (
                     <SendParcel />
@@ -40,6 +48,11 @@ const router = createBrowserRouter([
                     </div>
                 ),
             },
+            {
+                path: 'bearider',
+                Component:
+                    <BeARider></BeARider>
+            }
         ]
     },
     {
@@ -79,6 +92,14 @@ const router = createBrowserRouter([
             {
                 path: 'paymenthistory',
                 Component: PaymentHistory
+            },
+            {
+                path: 'pendingriders',
+                Component: PendingRider
+            },
+            {
+                path: 'activeriders',
+                Component: ActiveRiders
             },
         ]
     }

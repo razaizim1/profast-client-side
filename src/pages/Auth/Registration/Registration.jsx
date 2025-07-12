@@ -10,12 +10,10 @@ const Registration = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useAuth();
     const navigate = useNavigate();
-    const [error, setError] = React.useState('');
     const [profilePic, setProfilePic] = useState('');
     const axiosInastance = useAxios();
 
     const onSubmit = async (data) => {
-        setError('');
 
         try {
             // Create Firebase user
@@ -45,7 +43,6 @@ const Registration = () => {
             navigate('/');
         } catch (error) {
             console.error(error);
-            setError('Registration failed. Please try again.');
         }
     };
 
